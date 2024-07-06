@@ -1,0 +1,61 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+title "TaylorSwft"
+
+
+abstract class Entrada {
+
+    +Entrada(monto:Monto) 
+    +venderEntradas():Entrada
+    +obtenerMonto():Monto
+}
+
+class TipoA extends Entrada{
+    +TipoA(monto:Monto)
+}
+
+class TipoB extends Entrada{
+    +TipoB(monto:Monto)
+}
+
+interface Tarjeta {
+    +comprarEntrada(entrada:Entrada):Entrada
+}
+
+class PertenciaH implements Tarjeta{
+    +comprarEntrada(entrada:Entrada):Entrada
+}
+
+class Gold implements Tarjeta{
+    -descontarMonto(monto:Monto)
+    -saldoSuficiento(monto:Monto):bool
+    +comprarEntrada(entrada:Entrada):Entrada
+}
+
+
+Tarjeta ..> Entrada
+
+class Monto {
+    -valor:int
+    +Monto(monto:Monto)
+    +restarPrecio(precioRestar:Monto):Monto
+    +obtenerValor():int
+    +esMayor(monto:Monto):bool
+
+}
+
+Tarjeta-->Monto
+Entrada-->Monto
+
+
+class Comprador {
+    +Comprador(tarjeta:Tarjeta)
+    +comprarEntradas(tarjeta:Tarjeta)
+    +getEntradas():ArrayList<Entrada>
+}
+
+Comprador-->"*"Entrada
+Comprador-->Tarjeta
+
+@enduml

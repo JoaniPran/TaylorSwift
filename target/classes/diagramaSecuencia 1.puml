@@ -1,0 +1,61 @@
+
+
+@startuml Diagrama de Secuencia
+title Diagrama de Secuencia
+
+skinparam monochrome true
+hide footbox
+
+participant Actor
+participant "monto:Monto" as Monto
+participant "entrada:TipoA" as TipoA
+participant "tarjeta:Gold" as Gold
+participant "Comprador" as Comprador
+
+
+
+
+create Monto
+Actor -> Monto: Monto(600)
+
+create TipoA
+Actor -> TipoA: TipoB(monto)
+
+create Gold
+Actor -> Gold
+
+create Comprador
+Actor -> Comprador: Comprador(tarjeta)
+
+
+
+Actor -> Comprador : comprarEntradas(entrada)
+
+activate Comprador 
+Comprador -> Gold: comprarEntrada(entrada)
+Gold -> Gold :saldoSuficiente(monto)
+Gold --> Gold :true
+Gold -> Gold :descontarSaldo(entrada)
+
+
+activate Gold
+Gold -> TipoA: venderEntradas()
+
+activate TipoA
+TipoA --> Gold: entrada
+
+Gold --> Comprador: entrada
+Comprador -> Comprador: add(entrada)
+
+
+Actor -> Comprador : comprarEntradas(entrada)
+
+
+Comprador -> Gold: comprarEntrada(entrada)
+Gold -> Gold :saldoSuficiente(monto)
+Gold --> Gold :false
+
+Gold --> Comprador : null
+Comprador -> Comprador: add(null)
+
+@enduml

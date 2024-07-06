@@ -1,0 +1,80 @@
+
+
+@startuml Diagrama de Secuencia
+title Diagrama de Secuencia
+
+skinparam monochrome true
+hide footbox
+
+participant Actor
+participant "montoA:Monto" as MontoA
+participant "montoB:Monto" as MontoB
+participant "entradaA:TipoA" as TipoA
+participant "entradaB:TipoB" as TipoB
+participant "tarjeta:PertenenciaH" as PertenenciaH
+participant "Comprador" as Comprador
+
+
+create MontoA
+Actor -> MontoA: Monto(600)
+
+create MontoB
+Actor -> MontoB: Monto(1000)
+
+create TipoA
+Actor -> TipoA: TipoA(monto)
+
+create TipoB
+Actor -> TipoB: TipoB(monto)
+
+create PertenenciaH
+Actor -> PertenenciaH
+
+create Comprador
+Actor -> Comprador: Comprador(tarjeta)
+
+
+activate Comprador 
+Actor -> Comprador : comprarEntradas(entradaB)
+Comprador -> PertenenciaH: comprarEntrada(entradaB)
+activate PertenenciaH
+PertenenciaH -> TipoB: venderEntradas()
+activate TipoB
+TipoB --> PertenenciaH: entradaB
+deactivate TipoB
+PertenenciaH --> Comprador: entradaB
+Comprador -> Comprador: add(entradaB)
+
+Actor -> Comprador : comprarEntradas(entradaB)
+Comprador -> PertenenciaH: comprarEntrada(entradaB)
+PertenenciaH -> TipoB: venderEntradas()
+activate TipoB
+TipoB --> PertenenciaH: entradaB
+deactivate TipoB
+PertenenciaH --> Comprador: entradaB
+Comprador -> Comprador: add(entradaB)
+
+
+
+Actor -> Comprador : comprarEntradas(entradaA)
+Comprador -> PertenenciaH: comprarEntrada(entradaA)
+PertenenciaH -> TipoA: venderEntradas()
+activate TipoA
+TipoA --> PertenenciaH: entradaA
+deactivate TipoA
+PertenenciaH --> Comprador: entradaA
+Comprador -> Comprador: add(entradaA)
+
+Actor -> Comprador : comprarEntradas(entradaA)
+Comprador -> PertenenciaH: comprarEntrada(entradaA)
+PertenenciaH -> TipoA: venderEntradas()
+activate TipoA
+TipoA --> PertenenciaH: entradaA
+deactivate TipoA
+PertenenciaH --> Comprador: entradaA
+Comprador -> Comprador: add(entradaA)
+
+
+
+
+@enduml

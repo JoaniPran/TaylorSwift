@@ -1,0 +1,47 @@
+
+
+@startuml Diagrama de Secuencia
+title Diagrama de Secuencia
+
+skinparam monochrome true
+hide footbox
+
+participant Actor
+participant "monto:Monto" as Monto
+participant "entrada:TipoB" as TipoB
+participant "tarjeta:PertenenciaH" as PertenenciaH
+participant "Comprador" as Comprador
+
+
+
+
+create Monto
+Actor -> Monto: Monto(1000)
+
+create TipoB
+Actor -> TipoB: TipoB(monto)
+
+create PertenenciaH
+Actor -> PertenenciaH
+
+create Comprador
+Actor -> Comprador: Comprador(tarjeta)
+
+
+
+Actor -> Comprador : comprarEntradas(entrada)
+
+activate Comprador 
+Comprador -> PertenenciaH: comprarEntrada(entrada)
+
+activate PertenenciaH
+PertenenciaH -> TipoB: venderEntradas()
+
+activate TipoB
+TipoB --> PertenenciaH: entrada
+
+PertenenciaH --> Comprador: entrada
+Comprador -> Comprador: add(entrada)
+
+
+@enduml
